@@ -1,0 +1,230 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<unattend xmlns="urn:schemas-microsoft-com:unattend">
+  <settings pass="windowsPE">
+    <component name="Microsoft-Windows-International-Core-WinPE" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="NonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <SetupUILanguage>
+        <UILanguage>en-US</UILanguage>
+      </SetupUILanguage>
+      <UILanguage>en-US</UILanguage>
+      <UserLocale>en-US</UserLocale>
+      <SystemLocale>en-US</SystemLocale>
+      <InputLocale>0409:00000409</InputLocale>
+    </component>
+    <component name="Microsoft-Windows-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="NonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+       <DiskConfiguration>
+        <DisableEncryptedDiskProvisioning>true</DisableEncryptedDiskProvisioning>
+                <Disk wcm:action="add">
+
+                    <CreatePartitions>
+                        <CreatePartition wcm:action="add">
+                            <Order>1</Order>
+                            <Type>EFI</Type>
+                            <Size>400</Size>
+                        </CreatePartition>
+                        <CreatePartition wcm:action="add">
+                            <Order>2</Order>
+                            <Type>MSR</Type>
+                            <Size>100</Size>
+                        </CreatePartition>
+                        <CreatePartition wcm:action="add">
+                            <Order>3</Order>
+                            <Type>Primary</Type>
+                            <Extend>true</Extend>
+                        </CreatePartition>
+                    </CreatePartitions>
+
+                    <ModifyPartitions>
+                        <ModifyPartition wcm:action="add">
+                            <Format>NTFS</Format>
+                            <Letter>C</Letter>
+                            <Order>1</Order>
+                            <PartitionID>3</PartitionID>
+                            <Label>Windows 8</Label>
+                        </ModifyPartition>
+                    </ModifyPartitions>
+
+                    <DiskID>0</DiskID>
+                    <WillWipeDisk>true</WillWipeDisk>
+
+                </Disk>
+                <WillShowUI>OnError</WillShowUI>
+          </DiskConfiguration>
+
+      <UserData>
+        <AcceptEula>true</AcceptEula>
+        <ProductKey>
+           <!--<Key>XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</Key>-->
+           <WillShowUI>Never</WillShowUI>
+        </ProductKey>
+        <FullName>Test</FullName>
+        <Organization>Test</Organization>
+      </UserData>
+      <ImageInstall>
+        <OSImage>
+          <InstallFrom>
+            <MetaData wcm:action="add">
+              <Key>/IMAGE/INDEX</Key>
+              <Value>1</Value>
+            </MetaData>
+          </InstallFrom>
+          <InstallTo>
+            <DiskID>0</DiskID>
+            <PartitionID>3</PartitionID>
+          </InstallTo>
+          <WillShowUI>OnError</WillShowUI>
+        </OSImage>
+      </ImageInstall>
+    </component>
+     <component name="Microsoft-Windows-PnpCustomizationsWinPE" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+         <DriverPaths>
+            <PathAndCredentials wcm:keyValue="1" wcm:action="add">
+               <Path>d:\virtio</Path> 
+            </PathAndCredentials>
+         </DriverPaths>
+      </component>
+  </settings>
+  <settings pass="oobeSystem">
+    <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="NonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <UserAccounts>
+        <AdministratorPassword>
+          <Value>Test123</Value>
+          <PlainText>true</PlainText>
+        </AdministratorPassword>
+        <LocalAccounts />
+      </UserAccounts>
+      <AutoLogon>
+        <Password>
+          <Value>Test123</Value>
+          <PlainText>true</PlainText>
+        </Password>
+        <Enabled>true</Enabled>
+        <LogonCount>2050</LogonCount>
+        <Username>Administrator</Username>
+      </AutoLogon>
+      <OOBE>
+        <NetworkLocation>Work</NetworkLocation>
+        <SkipUserOOBE>true</SkipUserOOBE>
+        <SkipMachineOOBE>true</SkipMachineOOBE>
+        <ProtectYourPC>3</ProtectYourPC>
+        <HideEULAPage>true</HideEULAPage>
+        <HideOnlineAccountScreens>true</HideOnlineAccountScreens>
+        <HideLocalAccountScreen>true</HideLocalAccountScreen>
+        <HideOEMRegistrationScreen>true</HideOEMRegistrationScreen>
+        <HideWirelessSetupInOOBE>true</HideWirelessSetupInOOBE>
+      </OOBE>
+      <ShowWindowsLive>false</ShowWindowsLive>
+      <FirstLogonCommands>
+         <SynchronousCommand wcm:action="add">
+            <CommandLine>cmd.exe /c bcdedit /emssettings emsport:1 emsbaudrate:115200</CommandLine>
+            <Description>Enable ems</Description>
+            <Order>1</Order>
+         </SynchronousCommand>
+         <SynchronousCommand wcm:action="add">
+            <CommandLine>cmd.exe /c bcdedit /ems {default} on</CommandLine>
+            <Description>Enable ems</Description>
+            <Order>2</Order>
+         </SynchronousCommand>
+      </FirstLogonCommands>
+    </component>
+  </settings>
+  <settings pass="specialize">
+        <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="NonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <ComputerName>WIN8</ComputerName>
+            <AutoLogon>
+                <Password>
+                    <Value>Test123</Value>
+                    <PlainText>true</PlainText>
+                </Password>
+                <Enabled>true</Enabled>
+                <Username>Administrator</Username>
+            </AutoLogon>
+            <TimeZone>Pacific Standard Time</TimeZone>
+        </component>
+        <component name="Microsoft-Windows-IE-InternetExplorer" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <SearchScopes>
+                <Scope wcm:action="add">
+                    <ScopeDefault>true</ScopeDefault>
+                    <ScopeDisplayName>Google</ScopeDisplayName>
+                    <ScopeKey>Google</ScopeKey>
+                    <ScopeUrl>https://www.google.com/search?q={searchTerms}</ScopeUrl>
+                </Scope>
+            </SearchScopes>
+            <DisableAccelerators>true</DisableAccelerators>
+            <DisableFirstRunWizard>true</DisableFirstRunWizard>
+            <Home_Page>about:blank</Home_Page>
+        </component>
+        <component name="Microsoft-Windows-IE-InternetExplorer" processorArchitecture="wow64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <SearchScopes>
+                <Scope wcm:action="add">
+                    <ScopeDefault>true</ScopeDefault>
+                    <ScopeDisplayName>Google</ScopeDisplayName>
+                    <ScopeKey>Google</ScopeKey>
+                    <ScopeUrl>http://www.google.com/search?q={searchTerms}</ScopeUrl>
+                </Scope>
+            </SearchScopes>
+            <DisableAccelerators>true</DisableAccelerators>
+            <DisableFirstRunWizard>true</DisableFirstRunWizard>
+            <Home_Page>about:blank</Home_Page>
+        </component>
+        <component name="Microsoft-Windows-IE-ESC" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <IEHardenAdmin>false</IEHardenAdmin>
+            <IEHardenUser>false</IEHardenUser>
+        </component>
+
+        <component name="Microsoft-Windows-TerminalServices-LocalSessionManager" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <fDenyTSConnections>false</fDenyTSConnections>
+        </component>
+
+        <component name="Microsoft-Windows-TerminalServices-RDP-WinStationExtensions" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <UserAuthentication>0</UserAuthentication>
+        </component>
+
+        <component name="Networking-MPSSVC-Svc" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <FirewallGroups>
+                <FirewallGroup wcm:action="add" wcm:keyValue="RemoteDesktop">
+                    <Active>true</Active>
+                    <Profile>all</Profile>
+                    <Group>Remote Desktop</Group>
+                </FirewallGroup>
+            </FirewallGroups>
+        </component>
+
+        <component name="Microsoft-Windows-Deployment" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+           <RunSynchronous>
+             <RunSynchronousCommand wcm:action="add">
+               <Order>1</Order>
+               <Path>cmd /c bcdedit /emssettings emsport:1 emsbaudrate:115200</Path>
+               <Description>BCD 1</Description>
+             </RunSynchronousCommand>
+             <RunSynchronousCommand wcm:action="add">
+               <Order>2</Order>
+               <Path>cmd /c bcdedit /ems {default} on</Path>
+               <Description>BCD 2</Description>
+             </RunSynchronousCommand>
+             <RunSynchronousCommand wcm:action="add">
+               <Order>3</Order>
+               <Path>cmd /c bcdedit /bootems yes</Path>
+               <Description>BCD 3</Description>
+             </RunSynchronousCommand>
+             <RunSynchronousCommand wcm:action="add">
+               <Order>4</Order>
+               <Path>cmd /c bcdedit /set {emmsettings} bootems yes</Path>
+               <Description>BCD 4</Description>
+             </RunSynchronousCommand>
+           </RunSynchronous>
+         </component>
+  </settings>
+
+  <settings pass="offlineServicing">
+      <component name="Microsoft-Windows-PnpCustomizationsNonWinPE" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="NonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <DriverPaths>
+              <PathAndCredentials wcm:action="add" wcm:keyValue="1">
+                  <Path>d:\virtio</Path>
+              </PathAndCredentials>
+          </DriverPaths>
+      </component>
+      <component name="Microsoft-Windows-LUA-Settings" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <EnableLUA>false</EnableLUA>
+      </component>
+  </settings>
+</unattend>

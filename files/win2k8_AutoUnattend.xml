@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<unattend xmlns="urn:schemas-microsoft-com:unattend">
+    <settings pass="windowsPE">
+        <component name="Microsoft-Windows-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <DiskConfiguration>
+                <Disk wcm:action="add">
+                    <DiskID>0</DiskID>
+                    <WillWipeDisk>true</WillWipeDisk>
+                    <CreatePartitions>
+                        <CreatePartition wcm:action="add">
+                            <Order>1</Order>
+                            <Size>400</Size>
+                            <Type>EFI</Type>
+                        </CreatePartition>
+                        <CreatePartition wcm:action="add">
+                            <Order>2</Order>
+                            <Size>128</Size>
+                            <Type>MSR</Type>
+                        </CreatePartition>
+                        <CreatePartition wcm:action="add">
+                            <Order>3</Order>
+                            <Extend>true</Extend>
+                            <Type>Primary</Type>
+                        </CreatePartition>
+                    </CreatePartitions>
+
+                    <ModifyPartitions>
+                      <!-- EFI system partition (ESP) -->
+                      <ModifyPartition wcm:action="add">
+                        <Order>1</Order> 
+                        <PartitionID>1</PartitionID> 
+                        <Label>System</Label> 
+                        <Format>FAT32</Format> 
+                      </ModifyPartition>
+
+                      <!-- Windows partition -->
+                      <ModifyPartition wcm:action="add">
+                        <Order>2</Order> 
+                        <PartitionID>3</PartitionID> 
+                        <Label>Windows</Label> 
+                        <Letter>C</Letter> 
+                        <Format>NTFS</Format> 
+                      </ModifyPartition>
+                    </ModifyPartitions>
+                </Disk>
+            </DiskConfiguration>
+            <ImageInstall>
+                <OSImage>
+                    <InstallToAvailablePartition>false</InstallToAvailablePartition>
+                    <InstallTo>
+                        <DiskID>0</DiskID>
+                        <PartitionID>3</PartitionID>
+                    </InstallTo>
+                    <WillShowUI>OnError</WillShowUI>
+                    <InstallFrom>
+                        <MetaData wcm:action="add">
+                         <Key>/IMAGE/INDEX</Key>
+                         <Value>1</Value>
+                        </MetaData>
+                    </InstallFrom>
+                </OSImage>
+            </ImageInstall>
+            <UserData>
+                <ProductKey>
+                    <WillShowUI>Never</WillShowUI>
+                    <!--<Key>XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</Key>-->
+                </ProductKey>
+                <AcceptEula>true</AcceptEula>
+            </UserData>
+        </component>
+        <component name="Microsoft-Windows-PnpCustomizationsWinPE" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+           <DriverPaths>
+             <PathAndCredentials wcm:keyValue="1" wcm:action="add">
+               <Path>d:\virtio</Path> 
+             </PathAndCredentials>
+           </DriverPaths>
+        </component>
+        <component name="Microsoft-Windows-International-Core-WinPE" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <SetupUILanguage>
+                <UILanguage>en-US</UILanguage>
+            </SetupUILanguage>
+            <InputLocale>en-US</InputLocale>
+            <SystemLocale>en-US</SystemLocale>
+            <UILanguage>en-US</UILanguage>
+            <UserLocale>en-US</UserLocale>
+        </component>
+    </settings>
+    <settings pass="specialize">
+        <component name="Microsoft-Windows-IE-ESC" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <IEHardenAdmin>false</IEHardenAdmin>
+            <IEHardenUser>false</IEHardenUser>
+        </component>
+
+        <component name="Microsoft-Windows-TerminalServices-LocalSessionManager" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <fDenyTSConnections>false</fDenyTSConnections>
+        </component>
+
+        <component name="Microsoft-Windows-TerminalServices-RDP-WinStationExtensions" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <UserAuthentication>0</UserAuthentication>
+        </component>
+
+        <component name="Networking-MPSSVC-Svc" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <FirewallGroups>
+                <FirewallGroup wcm:action="add" wcm:keyValue="RemoteDesktop">
+                    <Active>true</Active>
+                    <Profile>all</Profile>
+                    <Group>Remote Desktop</Group>
+                </FirewallGroup>
+            </FirewallGroups>
+        </component>
+        <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <OEMInformation>
+                <Manufacturer>BHYVE</Manufacturer>
+                <HelpCustomized>false</HelpCustomized>
+            </OEMInformation>
+            <AutoLogon>
+                <Password>
+                    <Value>Test123</Value>
+                    <PlainText>true</PlainText>
+                </Password>
+                <Enabled>true</Enabled>
+                <LogonCount>5</LogonCount>
+                <Username>Administrator</Username>
+            </AutoLogon>
+            <ComputerName>W2K8BHYVE</ComputerName>
+            <TimeZone>UTC</TimeZone>
+        </component>
+        <component xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Microsoft-Windows-ErrorReportingCore" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
+            <DisableWER>1</DisableWER>
+        </component>
+    </settings>
+
+    <settings pass="oobeSystem">
+        <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <UserAccounts>
+                <AdministratorPassword>
+                    <Value>Test123</Value>
+                    <PlainText>true</PlainText>
+                </AdministratorPassword>
+                <LocalAccounts>
+                  <LocalAccount wcm:action="add">
+                    <Password>
+                      <Value>Test123</Value>
+                      <PlainText>true</PlainText>
+                    </Password>
+                    <Description>W7 Admin</Description>
+                    <DisplayName>admin</DisplayName>
+                    <Group>administrators</Group>
+                    <Name>admin</Name>
+                  </LocalAccount>
+                </LocalAccounts>
+            </UserAccounts>
+            <OOBE>
+              <HideEULAPage>true</HideEULAPage>
+              <HideWirelessSetupInOOBE>true</HideWirelessSetupInOOBE>
+              <NetworkLocation>Home</NetworkLocation>
+              <ProtectYourPC>1</ProtectYourPC>
+            </OOBE>
+            <AutoLogon>
+              <Password>
+                <Value>Test123</Value>
+                <PlainText>true</PlainText>
+              </Password>
+              <Username>admin</Username>
+              <Enabled>true</Enabled>
+            </AutoLogon>
+            <WindowsFeatures>
+               <ShowInternetExplorer>true</ShowInternetExplorer>
+               <ShowMediaCenter>false</ShowMediaCenter>
+               <ShowWindowsMediaPlayer>false</ShowWindowsMediaPlayer>
+               <ShowWindowsMail>false</ShowWindowsMail>
+            </WindowsFeatures>
+            <Themes>
+              <ThemeName>Classic Theme</ThemeName>
+              <DefaultThemesOff>true</DefaultThemesOff>
+            </Themes>
+            <ShowWindowsLive>false</ShowWindowsLive>
+
+            <FirstLogonCommands>
+               <SynchronousCommand wcm:action="add">
+                  <CommandLine>cmd /C bcdedit /emssettings emsport:1 emsbaudrate:115200</CommandLine>
+                  <Description>Enable EMS</Description>
+                  <Order>1</Order>
+               </SynchronousCommand>
+            </FirstLogonCommands>
+        </component>
+    </settings>
+
+    <settings pass="offlineServicing">
+      <component name="Microsoft-Windows-PnpCustomizationsNonWinPE" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="NonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <DriverPaths>
+            <PathAndCredentials wcm:action="add" wcm:keyValue="1">
+                <Path>d:\virtio</Path>
+            </PathAndCredentials>
+        </DriverPaths>
+      </component>
+    </settings>
+</unattend>
