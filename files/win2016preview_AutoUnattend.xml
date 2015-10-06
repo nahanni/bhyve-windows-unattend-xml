@@ -51,10 +51,6 @@
             </DiskConfiguration>
             <UserData>
                 <AcceptEula>true</AcceptEula>
-                <ProductKey>
-                    <Key>XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</Key>
-                    <WillShowUI>Never</WillShowUI>
-                </ProductKey>
                 <FullName>Test</FullName>
                 <Organization>Test</Organization>
             </UserData>
@@ -93,7 +89,6 @@
                     <Value>Test123</Value>
                     <PlainText>true</PlainText>
                 </AdministratorPassword>
-                <LocalAccounts />
             </UserAccounts>
             <AutoLogon>
                 <Password>
