@@ -61,10 +61,6 @@
                 </OSImage>
             </ImageInstall>
             <UserData>
-                <ProductKey>
-                    <WillShowUI>Never</WillShowUI>
-                    <!--<Key>XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</Key>-->
-                </ProductKey>
                 <AcceptEula>true</AcceptEula>
             </UserData>
         </component>
