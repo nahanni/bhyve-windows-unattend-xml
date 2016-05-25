@@ -53,6 +53,10 @@
                 <AcceptEula>true</AcceptEula>
                 <FullName>Test</FullName>
                 <Organization>Test</Organization>
+                <ProductKey>
+                    <Key>XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</Key>
+                    <WillShowUI>Never</WillShowUI>
+                </ProductKey>
             </UserData>
             <ImageInstall>
                 <OSImage>
@@ -122,7 +126,6 @@
                 <Username>Administrator</Username>
             </AutoLogon>
             <TimeZone>Pacific Standard Time</TimeZone>
-            <ProductKey>XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</ProductKey>
         </component>
         <component name="Microsoft-Windows-IE-ESC" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS"
             xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State"
